@@ -1,0 +1,302 @@
+{
+	"name": "juego_events",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "score",
+			"type": "number",
+			"initialValue": "25",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 975654105370901
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-moving",
+					"objectClass": "zombie",
+					"sid": 924381472250332,
+					"behaviorType": "move"
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation",
+					"objectClass": "zombie",
+					"sid": 715148823427494,
+					"parameters": {
+						"animation": "\"walk\"",
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 106362028432624,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-moving-direction",
+							"objectClass": "zombie",
+							"sid": 679632443246981,
+							"behaviorType": "move",
+							"parameters": {
+								"direction": "left"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-mirrored",
+							"objectClass": "zombie",
+							"sid": 817106865027874,
+							"parameters": {
+								"state": "mirrored"
+							}
+						}
+					],
+					"sid": 764578832355604
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 996065033227223
+						}
+					],
+					"actions": [
+						{
+							"id": "set-mirrored",
+							"objectClass": "zombie",
+							"sid": 771912812178168,
+							"parameters": {
+								"state": "not-mirrored"
+							}
+						}
+					],
+					"sid": 395599032037823
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "else",
+					"objectClass": "System",
+					"sid": 962770340713952
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation",
+					"objectClass": "zombie",
+					"sid": 155307869799740,
+					"parameters": {
+						"animation": "\"idle\"",
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 832773718550061
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-tick",
+					"objectClass": "System",
+					"sid": 385814908435963
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "score",
+					"sid": 134746664198374,
+					"parameters": {
+						"text": "\"Score: \" & score"
+					}
+				},
+				{
+					"id": "set-position",
+					"objectClass": "spawnBrains",
+					"sid": 491453644069360,
+					"parameters": {
+						"x": "random(ViewportWidth(\"elementos\"))",
+						"y": "random(ViewportHeight(\"elementos\"))"
+					}
+				},
+				{
+					"id": "subtract-from-instvar",
+					"objectClass": "brain",
+					"sid": 341284206454538,
+					"parameters": {
+						"instance-variable": "vida_brain",
+						"value": "1"
+					}
+				}
+			],
+			"sid": 537286344936712
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 844671319838876,
+					"parameters": {
+						"interval-seconds": "random(2)"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 489927156715300,
+					"parameters": {
+						"object-to-create": "brain",
+						"layer": "0",
+						"x": "spawnBrains.x",
+						"y": "spawnBrains.y",
+						"create-hierarchy": false,
+						"template-name": "\"\""
+					}
+				}
+			],
+			"sid": 690474103469210
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "zombie",
+					"sid": 925080219835709,
+					"parameters": {
+						"object": "brain"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "add-to-eventvar",
+					"objectClass": "System",
+					"sid": 223118933862556,
+					"parameters": {
+						"variable": "score",
+						"value": "5"
+					}
+				},
+				{
+					"id": "destroy",
+					"objectClass": "brain",
+					"sid": 504565221213901
+				}
+			],
+			"sid": 472999214261272
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "brain",
+					"sid": 282415775466191,
+					"parameters": {
+						"instance-variable": "vida_brain",
+						"comparison": 3,
+						"value": "0"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "brain",
+					"sid": 528148538555198
+				}
+			],
+			"sid": 114000872681143
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 813820241738860
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "score",
+					"sid": 900940012604966,
+					"parameters": {
+						"text": "\"Vida: \" & score"
+					}
+				}
+			],
+			"sid": 668287170505105
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 808309156313293,
+					"parameters": {
+						"interval-seconds": "1.0"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "subtract-from-eventvar",
+					"objectClass": "System",
+					"sid": 303691914203630,
+					"parameters": {
+						"variable": "score",
+						"value": "1"
+					}
+				}
+			],
+			"sid": 222938968115930
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-two-values",
+					"objectClass": "System",
+					"sid": 634509063324210,
+					"parameters": {
+						"first-value": "score",
+						"comparison": 3,
+						"second-value": "0"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 802252116544183,
+					"parameters": {
+						"layout": "GameOver"
+					}
+				}
+			],
+			"sid": 413168786957101
+		}
+	],
+	"sid": 168222926018675
+}
